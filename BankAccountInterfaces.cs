@@ -20,7 +20,7 @@ namespace BankAccountInterfaces
         Guid Id { get; }
         Guid PayerId { get; }
         Guid PayeeId { get; }
-        double AmountTransfered { get; }
+        double AmountTransfered { get; set; }
     }
 
     interface IBankAccountOperations

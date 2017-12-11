@@ -65,3 +65,9 @@ C:\Users\daniele.cantore\source\repos\BankAccountTest\BankAccountTest\bin\Debug\
 C:\Users\daniele.cantore\source\repos\BankAccountTest\BankAccountTest\bin\Debug\Ploeh.AutoFixture.NUnit2.Addins.xml
 C:\Users\daniele.cantore\source\repos\BankAccountTest\BankAccountTest\bin\Debug\Struik.AutoFixture.AutoMoq.AutoSetup.pdb
 C:\Users\daniele.cantore\source\repos\BankAccountTest\BankAccountTest\bin\Debug\Struik.AutoFixture.AutoMoq.AutoSetup.xml
+C:\Users\daniele.cantore\source\repos\BankAccountTest\BankAccountTest\bin\Debug\Ploeh.AutoFixture.Xunit.dll
+C:\Users\daniele.cantore\source\repos\BankAccountTest\BankAccountTest\bin\Debug\xunit.extensions.dll
+C:\Users\daniele.cantore\source\repos\BankAccountTest\BankAccountTest\bin\Debug\Ploeh.AutoFixture.Xunit.xml
+C:\Users\daniele.cantore\source\repos\BankAccountTest\BankAccountTest\bin\Debug\xunit.extensions.xml
+C:\Users\daniele.cantore\source\repos\BankAccountTest\BankAccountTest\bin\Debug\Ploeh.AutoFixture.Xunit2.dll
+C:\Users\daniele.cantore\source\repos\BankAccountTest\BankAccountTest\bin\Debug\Ploeh.AutoFixture.Xunit2.xml

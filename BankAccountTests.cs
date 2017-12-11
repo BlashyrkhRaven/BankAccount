@@ -12,6 +12,7 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoMoq;
+using Ploeh.AutoFixture.Xunit2;
 
 namespace BankAccountTest
 {
@@ -74,9 +75,11 @@ namespace BankAccountTest
         private Collection<ITransferRecord> _transactionsHistory;
         private readonly IBankAccountOperations _sut = new BankAccountOperations();
 
+        //Mock
         private readonly IFakeRecord _fakeRecord = Substitute.For<IFakeRecord>();
-        private readonly Fixture _fixture = new Fixture();
+        private readonly IFixture _fixture = new Fixture().Customize(new AutoMoqCustomization());
         // .Register<ITransferRecord>(() => new TransferRecord(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), 30));
+
 
         [Fact]
         public void BankAccountTransfer_should_throw_exeption_if_payer_amount_cant_cover_payment()
@@ -116,7 +119,7 @@ namespace BankAccountTest
             _transactionsHistory = new Collection<ITransferRecord>();
             _sut.SaveTransaction(ref _transactionsHistory, _payer.Id, _payee.Id, 200);
 
-             _transactionsHistory.Count.Should().Be(1);
+            _transactionsHistory.Count.Should().Be(1);
 
             var lastTransaction = _transactionsHistory[_transactionsHistory.Count - 1];
             lastTransaction.PayerId.Should().Be(_payer.Id);
@@ -152,19 +155,16 @@ namespace BankAccountTest
 
 
         [Theory]
-        [InlineData("01E838E1-E81D-40EB-B833-7A19836CB89A", 4)]
-        [InlineData("61A40864-22A7-4C1A-A671-C0A9F3FF1E5D", 7)]
+        [InlineAutoData("01E838E1-E81D-40EB-B833-7A19836CB89A", 4)]
+        [InlineAutoData("61A40864-22A7-4C1A-A671-C0A9F3FF1E5D", 7)]
         public void GetTransactionByBankId_should_store_all_the_records_in_the_transactions_history(string bankId, int numberOfTransactions)
         {
-
-
-            _fixture.Customize(new AutoMoqCustomization());
-            _fixture.Inject<double>(1234);
+            int numberOfFakeTransactions = 50;
+            _transactionsHistory = new Collection<ITransferRecord>();
+            // _fixture.Customize(new AutoMoqCustomization());
+            // _fixture.Inject<double>(1234);
 
             _fakeRecord.GetFakeRecord().Returns(new TransferRecord(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), 30));
-            int numberOfFakeTransactions = 50;
-
-            _transactionsHistory = new Collection<ITransferRecord>();
             _payer.depositAmount(500);
 
             for (int i = 0; i < numberOfTransactions; i++)
@@ -173,12 +173,12 @@ namespace BankAccountTest
             }
             for (int i = 0; i < numberOfFakeTransactions; i++)
             {
-                _transactionsHistory.Add(_fixture.Create<TransferRecord>());
+                _transactionsHistory.Add(_fixture.Create<ITransferRecord>());
+                _transactionsHistory.Add(_fixture.Build<TransferRecord>().With(x => x.AmountTransfered, 456).Create());
                 _transactionsHistory.Add(_fakeRecord.GetFakeRecord());
-
             }
 
-            _transactionsHistory.Count.Should().Be(numberOfFakeTransactions * 2 + numberOfTransactions);
+            _transactionsHistory.Count.Should().Be((numberOfFakeTransactions * 3) + numberOfTransactions);
 
             var transactions = _sut.GetTransactionByBankId(_transactionsHistory, new Guid(bankId));
             transactions.Count.Should().Be(numberOfTransactions);

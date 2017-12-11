@@ -43,7 +43,7 @@ namespace BankAccountModels
         }
         public Guid PayerId { get; set; }
         public Guid PayeeId { get; set; }
-        public double AmountTransfered { get; }
+        public double AmountTransfered { get; set; }
 
         public TransferRecord(Guid transferId, Guid payerId, Guid payeeId, double amountTransfered)
         {
